@@ -2,96 +2,92 @@
 const elForm = document.querySelector(".form");
 const elFormInput = document.querySelectorAll(".form__input");
 const elFormText = document.querySelectorAll(".form__text");
-const elFormButton = document.querySelector(".form__button");
 //show
-const elShow = document.querySelector(".show");
 const elShowDate = document.querySelectorAll(".show__date");
-const elShowBottom = document.querySelectorAll(".show__items-bottom");
-const elShowItemsText = document.querySelector(".show__items-text");
-const elShowCardsStatus = document.querySelector(".show__cards-status");
-const elCardsRight = document.querySelector(".show__cards-right");
 
-let date = (new Date()).toString();
+let date = new Date().toString();
 let userStatus = {
-  dateUser: date.slice(4,15),
+  dateUser: date.slice(4, 15),
   text: null,
   time: null,
   status: "In progress...",
 };
 
-if(Number(date.slice(15,18))+1 < 24) {
-  userStatus.time = `${Number(date.slice(15,18))+1}${date.slice(18,21)}`
-}else if (date.slice(15,18) == 23) {
-  userStatus.time = `00${date.slice(18,21)}`;
+if (Number(date.slice(15, 18)) + 1 < 24) {
+  userStatus.time = `${Number(date.slice(15, 18)) + 1}${date.slice(18, 21)}`;
+} else if (date.slice(15, 18) == 23) {
+  userStatus.time = `00${date.slice(18, 21)}`;
 }
 
-elShowDate[0].textContent = `${userStatus.dateUser}`
-
+elShowDate[0].textContent = `${userStatus.dateUser}`;
 
 let userInfo = [];
 let userObject = [];
 let months = [userStatus.dateUser];
 
-
-let month = 0
+let month = 0;
 let complete = false;
 let empty = false;
 let items = -1;
 let indexBottom = 0;
 
 elFormText[1].textContent = `Add deadline (default ${date.slice(4, 15)})`;
-elFormText[2].textContent = `Time (default ${date.slice(15,21)} + 1 hour)`;
+elFormText[2].textContent = `Time (default ${date.slice(15, 21)} + 1 hour)`;
 
-
-elForm.addEventListener("submit", (e)=> {
+elForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let hasDate = false;
 
-  
   if (!elFormInput[0].value) {
     elFormInput[0].style.cssText = `
     border: 1px solid red;
-    `; 
+    `;
     empty = true;
-  }else {
+  } else {
     elFormInput[0].style.cssText = `
     border: 1px solid rgb(35, 35, 35);
-    `; 
+    `;
     empty = false;
-  } 
+  }
   if (!empty) {
     items++;
-    userInfo.push(userStatus)
     let {dateUser, text, time, status} = userStatus;
-    dateUser =  elFormInput[1].value ? elFormInput[1].value : dateUser;
+    dateUser = elFormInput[1].value ? elFormInput[1].value : dateUser;
     time = elFormInput[2].value ? elFormInput[2].value : time;
-    text = elFormInput[0].value.trim() ? elFormInput[0].value.trim() : "none"; 
+    text = elFormInput[0].value.trim() ? elFormInput[0].value.trim() : "none";
     let dateName = dateUser;
-    
-    
-    if (date.slice(8,10) < dateUser.slice(8)) {    
+
+    if (date.slice(8, 10) < dateUser.slice(8)) {
       status = "In progress...";
       complete = false;
-    }else {
+    } else {
       status = "Completed";
       complete = true;
     }
-    
-    months.forEach((item, index)=>{
-      if (item == dateUser) {;
+
+    months.forEach((item, index) => {
+      if (item == dateUser) {
         hasDate = true;
-        indexBottom = index; 
+        indexBottom = index;
         dateName = item;
       }
     });
     if (!months.includes(dateUser)) {
       months.push(dateUser);
     }
-    
+    let u serStatusSecondA = userStatus;
+    userStatusSecondA.dateUser = dateUser;
+    userStatusSecondA.text = text;
+    userStatusSecondA.time = time;
+    userStatusSecondA.status = status;
+    userInfo.push(userStatus);
+    console.log(userInfo);
+
+    userInfo.push("1");
 
     if (!hasDate) {
-    let elShowItems = document.querySelector(".show__items");
-    elShowItems.innerHTML += `
+      let elShowItems = document.querySelector(".show__items");
+      elShowItems.innerHTML += `
       <div class="show__items-top">
         <span class="show__date">${dateUser}</span>
       </div>
@@ -116,8 +112,7 @@ elForm.addEventListener("submit", (e)=> {
             </div>
         </div>
     `;
-     }
-     else {      
+    } else {
       const elShowBottom = document.querySelectorAll(".show__items-bottom");
 
       elShowBottom[months.indexOf(dateName)].innerHTML += `
@@ -142,33 +137,30 @@ elForm.addEventListener("submit", (e)=> {
       `;
     }
     let elShowCardsStatus = document.querySelectorAll(".show__cards-status");
-    
+
     if (status == "In progress...") {
       elShowCardsStatus[items].style.cssText = `
         background-color: red;
       `;
-    }else {
+    } else {
       elShowCardsStatus[items].style.cssText = `
         background-color: rgb(4, 86, 37);
       `;
     }
-
   }
-  
-  
 });
 
-elFormInput[0].addEventListener("input", (e)=> {
+elFormInput[0].addEventListener("input", (e) => {
   const inputValue = e.target.value;
-  if(!inputValue) {
+  if (!inputValue) {
     elFormInput[0].style.cssText = `
       border: 1px solid red;
     `;
     empty = true;
-  }else {
+  } else {
     elFormInput[0].style.cssText = `
       border: 1px solid rgb(35, 35, 35);
     `;
-    empty = false; 
+    empty = false;
   }
 });
