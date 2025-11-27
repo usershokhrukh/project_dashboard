@@ -75,15 +75,13 @@ elForm.addEventListener("submit", (e) => {
     if (!months.includes(dateUser)) {
       months.push(dateUser);
     }
-    let u serStatusSecondA = userStatus;
+    let userStatusSecondA = userStatus;
     userStatusSecondA.dateUser = dateUser;
     userStatusSecondA.text = text;
     userStatusSecondA.time = time;
     userStatusSecondA.status = status;
-    userInfo.push(userStatus);
+    userInfo.push(userStatusSecondA);
     console.log(userInfo);
-
-    userInfo.push("1");
 
     if (!hasDate) {
       let elShowItems = document.querySelector(".show__items");
